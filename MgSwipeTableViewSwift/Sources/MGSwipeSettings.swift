@@ -15,7 +15,9 @@ class MGSwipeSettings: NSObject {
     var expandLastButtonBySafeAreaInsets: Bool!
     var keepButtonsSwiped: Bool!
     var enableSwipeBounces: Bool!
+    var allowsButtonsWithDifferentWidth: Bool!
     var swipeBounceRate: CGFloat!
+    var buttonsDistance: CGFloat!
     var showAnimation: MgSwipeAnimation!
     var hideAnimation: MgSwipeAnimation!
     var stretchAnimation: MgSwipeAnimation!
@@ -28,7 +30,9 @@ class MGSwipeSettings: NSObject {
         expandLastButtonBySafeAreaInsets = true
         keepButtonsSwiped = true
         enableSwipeBounces = true
+        allowsButtonsWithDifferentWidth = false
         swipeBounceRate = 1.0
+        buttonsDistance = 0.0
         showAnimation = MgSwipeAnimation()
         hideAnimation = MgSwipeAnimation()
         stretchAnimation = MgSwipeAnimation()
