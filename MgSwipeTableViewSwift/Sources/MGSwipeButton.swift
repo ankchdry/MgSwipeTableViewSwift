@@ -71,6 +71,82 @@ class MGSwipeButton: UIButton {
         //button.edgeInsets = insets
         return button
     }
+    func callMGSwipeConvenienceCallback(_ sender: MGSwipeTableCell?) -> Bool {
+        if (callback != nil && sender != nil) {
+            return (callback!)(sender!)
+        }
+        return false
+    }
 
+    func centerIconOverText() {
+        centerIconOverText(withSpacing: 3.0)
+    }
+    func centerIconOverText(withSpacing spacing: CGFloat) {
+        var size = imageView?.image?.size
+
+        if Float(UIDevice.current.systemVersion) ?? 0.0 >= 9.0 && isRTLLocale() {
+            titleEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: -((size?.height ?? 0.0) + spacing), right: -(size?.width ?? 0.0))
+            if let font = titleLabel?.font {
+                size = titleLabel?.text?.size(withAttributes: [
+                NSAttributedString.Key.font: font
+                ])
+            }
+            imageEdgeInsets = UIEdgeInsets(top: -((size?.height ?? 0.0) + spacing), left: -(size?.width ?? 0.0), bottom: 0.0, right: 0.0)
+        }
+        else {
+            titleEdgeInsets = UIEdgeInsets(top: 0.0, left: -(size?.width ?? 0.0), bottom: -((size?.height ?? 0.0) + spacing), right: 0.0)
+            if let font = titleLabel?.font {
+                size = titleLabel?.text?.size(withAttributes: [
+                NSAttributedString.Key.font: font
+                ])
+            }
+            imageEdgeInsets = UIEdgeInsets(top: -((size?.height ?? 0.0) + spacing), left: 0.0, bottom: 0.0, right: -(size?.width ?? 0.0))
+        }
+    }
+    func setPadding(_ padding: CGFloat) {
+        contentEdgeInsets = UIEdgeInsets(top: 0, left: padding, bottom: 0, right: padding)
+        sizeToFit()
+    }
+
+    func setButtonWidth(_ buttonWidth: CGFloat) {
+        self.buttonWidth = buttonWidth
+        if self.buttonWidth > 0 {
+            var frame = self.frame
+            frame.size.width = self.buttonWidth
+            self.frame = frame
+        } else {
+            sizeToFit()
+        }
+    }
+    func setEdgeInsets(_ insets: UIEdgeInsets) {
+        contentEdgeInsets = insets
+        sizeToFit()
+    }
+
+    func iconTintColor(_ tintColor: UIColor?) {
+        var currentIcon = imageView?.image
+        if currentIcon?.renderingMode != .alwaysTemplate {
+            currentIcon = currentIcon?.withRenderingMode(.alwaysTemplate)
+            setImage(currentIcon, for: .normal)
+        }
+        self.tintColor = tintColor
+    }
+
+    func isAppExtension() -> Bool {
+        return (Bundle.main.executablePath as NSString?)?.range(of: ".appex/").location != NSNotFound
+    }
+    func isRTLLocale() -> Bool {
+        if #available(iOS 9.0, *) {
+          if UIView.userInterfaceLayoutDirection(
+            for: self.semanticContentAttribute) == .rightToLeft {
+               return true
+          }
+        } else {
+            if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
+                return true
+            }
+        }
+        return false
+    }
 }
 
