@@ -7,6 +7,7 @@
 //
 
 import Foundation
-class MGSwipeTableCell {
+import UIKit
+class MGSwipeTableCell: UITableViewCell {
     
 }
