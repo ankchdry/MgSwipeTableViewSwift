@@ -10,9 +10,10 @@ import Foundation
 import UIKit
 
 class MGSwipeButton: UIButton {
+    
     typealias MGSwipeButtonCallback = (MGSwipeTableCell) -> Bool
-
     var callback: MGSwipeButtonCallback?
+    
     /// A width for the expanded buttons. Defaults to 0, which means sizeToFit will be called.
     var buttonWidth: CGFloat = 0.0
     //  Converted to Swift 5.1 by Swiftify v5.1.31847 - https://swiftify.com/
@@ -103,6 +104,7 @@ class MGSwipeButton: UIButton {
             imageEdgeInsets = UIEdgeInsets(top: -((size?.height ?? 0.0) + spacing), left: 0.0, bottom: 0.0, right: -(size?.width ?? 0.0))
         }
     }
+    
     func setPadding(_ padding: CGFloat) {
         contentEdgeInsets = UIEdgeInsets(top: 0, left: padding, bottom: 0, right: padding)
         sizeToFit()

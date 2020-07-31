@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-
 class MGSwipeButtonsView: UIView {
     weak var cell: MGSwipeTableCell?
     var backgroundColorCopy: UIColor?
@@ -28,5 +27,4 @@ class MGSwipeButtonsView: UIView {
     var _safeInset: CGFloat = 0.0
     var _autoHideExpansion: Bool = false
 }
-
 

@@ -23,6 +23,7 @@
 		3027894224D428460049B4E9 /* MGSwipeAnimationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027894124D428460049B4E9 /* MGSwipeAnimationData.swift */; };
 		3027894424D428580049B4E9 /* MGSwipeAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027894324D428580049B4E9 /* MGSwipeAnimation.swift */; };
 		3027894624D428670049B4E9 /* MGSwipeTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027894524D428670049B4E9 /* MGSwipeTableCell.swift */; };
+		3027894A24D439120049B4E9 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027894924D439120049B4E9 /* Enums.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		3027894124D428460049B4E9 /* MGSwipeAnimationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGSwipeAnimationData.swift; sourceTree = "<group>"; };
 		3027894324D428580049B4E9 /* MGSwipeAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGSwipeAnimation.swift; sourceTree = "<group>"; };
 		3027894524D428670049B4E9 /* MGSwipeTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGSwipeTableCell.swift; sourceTree = "<group>"; };
+		3027894924D439120049B4E9 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +166,7 @@
 				3027894124D428460049B4E9 /* MGSwipeAnimationData.swift */,
 				3027894324D428580049B4E9 /* MGSwipeAnimation.swift */,
 				3027894524D428670049B4E9 /* MGSwipeTableCell.swift */,
+				3027894924D439120049B4E9 /* Enums.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				3027890924D427060049B4E9 /* SceneDelegate.swift in Sources */,
 				3027893824D427CA0049B4E9 /* MGSwipeButton.swift in Sources */,
 				3027893A24D427DD0049B4E9 /* MGSwipeTableInputOverlay.swift in Sources */,
+				3027894A24D439120049B4E9 /* Enums.swift in Sources */,
 				3027890B24D427060049B4E9 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
