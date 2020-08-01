@@ -18,9 +18,9 @@ class MGSwipeSettings: NSObject {
     var allowsButtonsWithDifferentWidth: Bool!
     var swipeBounceRate: CGFloat!
     var buttonsDistance: CGFloat!
-    var showAnimation: MgSwipeAnimation!
-    var hideAnimation: MgSwipeAnimation!
-    var stretchAnimation: MgSwipeAnimation!
+    var showAnimation: MGSwipeAnimation!
+    var hideAnimation: MGSwipeAnimation!
+    var stretchAnimation: MGSwipeAnimation!
     
     override init() {
         super.init()
@@ -33,9 +33,9 @@ class MGSwipeSettings: NSObject {
         allowsButtonsWithDifferentWidth = false
         swipeBounceRate = 1.0
         buttonsDistance = 0.0
-        showAnimation = MgSwipeAnimation()
-        hideAnimation = MgSwipeAnimation()
-        stretchAnimation = MgSwipeAnimation()
+        showAnimation = MGSwipeAnimation()
+        hideAnimation = MGSwipeAnimation()
+        stretchAnimation = MGSwipeAnimation()
     }
     
     func setAnimationDuration(_ duration: CGFloat) {

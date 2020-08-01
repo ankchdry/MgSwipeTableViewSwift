@@ -7,7 +7,7 @@
 //
 import UIKit
 import Foundation
-class MgSwipeAnimation {
+class MGSwipeAnimation {
     var duration: CGFloat?
     var easingFunction: MGSwipeEasingFunction!
     

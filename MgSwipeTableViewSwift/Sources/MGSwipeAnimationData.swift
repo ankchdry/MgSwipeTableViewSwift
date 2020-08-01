@@ -12,5 +12,5 @@ class MGSwipeAnimationData: NSObject {
     var to: CGFloat = 0.0
     var duration: CFTimeInterval = 0
     var start: CFTimeInterval = 0
-    var animation: MgSwipeAnimation?
+    var animation: MGSwipeAnimation?
 }
