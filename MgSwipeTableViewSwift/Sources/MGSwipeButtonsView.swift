@@ -12,7 +12,7 @@ class MGSwipeButtonsView: UIView {
     weak var cell: MGSwipeTableCell?
     var backgroundColorCopy: UIColor?
     
-    var buttons: [MGSwipeButton]? = nil
+    var buttons: [UIView]? = nil
     var container: UIView? = nil
     var fromLeft: Bool = false
     var expandedButton: UIView? = nil
@@ -27,7 +27,7 @@ class MGSwipeButtonsView: UIView {
     var safeInset: CGFloat = 0.0
     var autoHideExpansion: Bool = false
     
-    init(buttons buttonsArray: [MGSwipeButton], direction: MGSwipeDirection, swipeSettings settings: MGSwipeSettings?, safeInset: CGFloat) {
+    init(buttons buttonsArray: [UIView], direction: MGSwipeDirection, swipeSettings settings: MGSwipeSettings?, safeInset: CGFloat) {
         var containerWidth: CGFloat = 0
         var maxSize = CGSize.zero
         let lastButton = buttonsArray.last
@@ -199,16 +199,16 @@ class MGSwipeButtonsView: UIView {
                 expandedButtonAnimated?.backgroundColor = backgroundColorCopy
                 backgroundColorCopy = nil
             }
-            let duration = CGFloat(fromLeft ? cell.leftExpansion.animationDuration() : cell.rightExpansion.animationDuration())
+            let duration = CGFloat((fromLeft ? cell?.leftExpansion.animationDuration : cell?.rightExpansion.animationDuration) ?? 0.0)
             UIView.animate(withDuration: TimeInterval(animated ? duration : 0.0), delay: 0, options: .beginFromCurrentState, animations: {
-                self.container.frame = self.bounds
-                if self.expansionLayout == MGSwipeExpansionLayoutCenter {
-                    self.expandedButtonAnimated.frame = self.expandedButtonBoundsCopy
+                self.container?.frame = self.bounds
+                if self.expansionLayout == MGSwipeExpansionLayout.center {
+                    self.expandedButtonAnimated?.frame = self.expandedButtonBoundsCopy
                 }
                 self.resetButtons()
-                self.expansionBackgroundAnimated.frame = self.expansionBackgroundRect(self.expandedButtonAnimated)
+                self.expansionBackgroundAnimated?.frame = self.expansionBackgroundRect(self.expandedButtonAnimated ?? UIButton())
             }) { finished in
-                self.expansionBackgroundAnimated.removeFromSuperview()
+                self.expansionBackgroundAnimated?.removeFromSuperview()
             }
         }
         else if (expansionBackground != nil) {
@@ -219,6 +219,7 @@ class MGSwipeButtonsView: UIView {
     }
     // MARK: Trigger Actions
     func handleClick(_ sender: Any?, fromExpansion: Bool) -> Bool {
+        return true
     }
     @objc func mgButtonClicked(_ sender: Any?) {
         //handleClick(sender, fromExpansion: false)
@@ -249,9 +250,11 @@ class MGSwipeButtonsView: UIView {
 
         let lastButton = buttons?.last
         for button in buttons ?? [] {
-            let frame = button.frame
+            var frame = button.frame
             let dx = CGFloat(roundf(Float(frame.size.width * 0.5 * (1.0 - t))))
-            frame.origin.x = fromLeft ? (selfWidth - frame.size.width - offsetX) * (1.0 - t) + offsetX + dx : offsetX * t - dx
+            let lhs = (selfWidth - frame.size.width - offsetX) * (1.0 - t) + offsetX + dx
+            let rhs = offsetX * t - dx
+            frame.origin.x = fromLeft ? lhs : rhs
             button.frame = frame
 
             if (buttons?.count ?? 0) > 1 {

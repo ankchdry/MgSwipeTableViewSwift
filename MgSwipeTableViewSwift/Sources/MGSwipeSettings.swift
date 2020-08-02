@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 class MGSwipeSettings: NSObject {
+    var topMargin: CGFloat = 0.0
+    var bottomMargin: CGFloat = 0.0
     var transition: MGSwipeTransition?
     var threshold: CGFloat?
     var offset: CGFloat?

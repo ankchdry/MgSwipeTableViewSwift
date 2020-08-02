@@ -8,8 +8,7 @@
 
 import Foundation
 import UIKit
-class MGSWipeTableInputOverlay: UIView {
-    
+class MGSwipeTableInputOverlay: UIView {
     var currentCell: MGSwipeTableCell?
     
     override init(frame: CGRect) {
