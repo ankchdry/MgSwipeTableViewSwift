@@ -16,6 +16,7 @@ class MGSwipeSettings: NSObject {
     var offset: CGFloat?
     var expandLastButtonBySafeAreaInsets: Bool!
     var keepButtonsSwiped: Bool!
+    var onlySwipeButtons = false
     var enableSwipeBounces: Bool!
     var allowsButtonsWithDifferentWidth: Bool!
     var swipeBounceRate: CGFloat!
@@ -23,6 +24,7 @@ class MGSwipeSettings: NSObject {
     var showAnimation: MGSwipeAnimation!
     var hideAnimation: MGSwipeAnimation!
     var stretchAnimation: MGSwipeAnimation!
+    
     
     override init() {
         super.init()

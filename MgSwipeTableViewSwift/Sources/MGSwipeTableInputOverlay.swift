@@ -25,19 +25,20 @@ class MGSwipeTableInputOverlay: UIView {
         if event == nil {
             return nil
         }
-        if !(currentCell != nil) {
+        if currentCell == nil {
             removeFromSuperview()
             return nil
         }
         let p = convert(point, to: currentCell)
-        if (currentCell != nil) && (currentCell.hidden || currentCell.bounds.contains(p)) {
+        if (currentCell != nil) && (currentCell!.isHidden || currentCell!.bounds.contains(p)) {
             return nil
         }
         var hide = true
-        currentCell.delegate.swipeTableCell(currentCell, shouldHideSwipeOnTap: p)
+        currentCell
+        currentCell?.delegate?.swipeTableCell(currentCell, shouldHideSwipeOnTap: p)
         if hide {
-            currentCell.hideSwipe(animated: true)
+            currentCell?.hideSwipe(animated: true)
         }
-        return currentCell.touchOnDismissSwipe ? nil : self
+        return currentCell?.touchOnDismissSwipe ?? false ? nil : self
     }
 }
