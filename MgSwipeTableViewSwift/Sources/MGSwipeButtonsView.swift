@@ -152,38 +152,65 @@ class MGSwipeButtonsView: UIView {
 
     }
     func expand(toOffset offset: CGFloat, settings: MGSwipeExpansionSettings) {
-//        if settings.buttonIndex ?? 0 < 0 || settings.buttonIndex >= buttons?.count ?? 0 {
-//            return
-//        }
-//        if expandedButton == nil {
-//            expandedButton = buttons?[fromLeft ? settings.buttonIndex : (buttons?.count ?? 0) - settings.buttonIndex - 1]
-//            let previusRect = container?.frame
-//            layoutExpansion(offset)
-//            resetButtons()
-//            if !fromLeft {
-//                //Fix expansion animation for right buttons
-//                for button in buttons ?? [] {
-//                    let frame = button.frame
-//                    frame.origin.x += container.bounds.size.width - previusRect.size.width
-//                    button.frame = frame
-//                }
-//            }
-//            expansionBackground = UIView(frame: expansionBackgroundRect(expandedButton))
-//            expansionBackground.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//            if settings.expansionColor {
-//                backgroundColorCopy = expandedButton.backgroundColor
-//                expandedButton.backgroundColor = settings.expansionColor
-//            }
-//            expansionBackground.backgroundColor = expandedButton.backgroundColor
-//            if UIColor.clear == expandedButton.backgroundColor {
-//                // Provides access to more complex content for display on the background
-//                expansionBackground.layer.contents = expandedButton.layer.contents
-//            }
-//            container.addSubview(expansionBackground)
-//            expansionLayout = settings.expansionLayout
-//
-//            let duration = CGFloat(fromLeft ? cell.leftExpansion.animationDuration() : cell.rightExpansion.animationDuration())
-//        }
+        if settings.buttonIndex ?? 0 < 0 || settings.buttonIndex >= buttons?.count ?? 0 {
+            return
+        }
+        if expandedButton == nil {
+            expandedButton = buttons?[fromLeft ? settings.buttonIndex : (buttons?.count ?? 0) - settings.buttonIndex - 1]
+            let previusRect = container?.frame
+            layoutExpansion(offset)
+            resetButtons()
+            if !fromLeft {
+                //Fix expansion animation for right buttons
+                for button in buttons ?? [] {
+                    var frame = button.frame
+                    frame.origin.x += (container?.bounds.size.width ?? 0.0) - (previusRect?.size.width ?? 0.0)
+                    button.frame = frame
+                }
+            }
+            expansionBackground = UIView(frame: expansionBackgroundRect(expandedButton!))
+            expansionBackground?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            if (settings.expansionColor != nil) {
+                backgroundColorCopy = expandedButton!.backgroundColor
+                expandedButton!.backgroundColor = settings.expansionColor
+            }
+            expansionBackground?.backgroundColor = expandedButton!.backgroundColor
+            if UIColor.clear == expandedButton?.backgroundColor {
+                // Provides access to more complex content for display on the background
+                expansionBackground?.layer.contents = expandedButton!.layer.contents
+            }
+            container?.addSubview(expansionBackground!)
+            expansionLayout = settings.expansionLayout
+
+            let duration = CGFloat((fromLeft ? cell?.leftExpansion.animationDuration : cell?.rightExpansion.animationDuration) ?? 0)
+            UIView.animate(withDuration: TimeInterval(duration), delay: 0, options: .beginFromCurrentState, animations: {
+                self.expandedButton?.isHidden = false
+                if self.expansionLayout == MGSwipeExpansionLayout.center {
+                    self.expandedButtonBoundsCopy = self.expandedButton!.bounds
+                    self.expandedButton!.layer.mask = nil
+                    self.expandedButton!.layer.transform = CATransform3DIdentity
+                    self.expandedButton!.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+                    self.expandedButton!.superview!.bringSubviewToFront(self.expandedButton!)
+                    self.expandedButton!.frame = self.container?.bounds ?? CGRect.zero
+                    self.expansionBackground?.frame = self.expansionBackgroundRect(self.expandedButton!)
+                } else if self.expansionLayout == MGSwipeExpansionLayout.none {
+                    self.expandedButton?.superview!.bringSubviewToFront(self.expandedButton!)
+                    self.expansionBackground?.frame = self.container?.bounds ?? CGRect.zero
+                }
+                else if self.fromLeft {
+                    self.expandedButton!.frame = CGRect(x: (self.container?.bounds.size.width ?? 0.0) - self.expandedButton!.bounds.size.width, y: 0, width: self.expandedButton!.bounds.size.width, height: self.expandedButton!.bounds.size.height)
+                    self.expandedButton!.autoresizingMask.insert(.flexibleLeftMargin)
+                    self.expansionBackground?.frame = self.expansionBackgroundRect(self.expandedButton!)
+                } else {
+                    self.expandedButton!.frame = CGRect(x: 0, y: 0, width: self.expandedButton!.bounds.size.width, height: self.expandedButton!.bounds.size.height)
+                    self.expandedButton!.autoresizingMask.insert(.flexibleRightMargin)
+                    self.expansionBackground?.frame = self.expansionBackgroundRect(self.expandedButton!)
+                }
+            }) { finished in
+            }
+            return;
+        }
+        self.layoutExpansion(offset)
     }
     func endExpansion(animated: Bool) {
         if (expandedButton != nil) {
