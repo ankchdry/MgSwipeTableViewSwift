@@ -46,7 +46,7 @@ extension MGSwipeTableCellDelegate {
 
     func swipeTableCell(_ cell: MGSwipeTableCell, swipeButtonsFor direction: MGSwipeDirection, swipeSettings: MGSwipeSettings, expansionSettings: MGSwipeExpansionSettings) -> [UIView]? {
         print("Default swipeButtonsFor delegate called");
-        return [];
+        return nil;
     }
 
     func swipeTableCell(_ cell: MGSwipeTableCell, shouldHideSwipeOnTap point: CGPoint) -> Bool {

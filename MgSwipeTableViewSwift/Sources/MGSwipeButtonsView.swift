@@ -249,7 +249,7 @@ class MGSwipeButtonsView: UIView {
         return true
     }
     @objc func mgButtonClicked(_ sender: Any?) {
-        //handleClick(sender, fromExpansion: false)
+        handleClick(sender, fromExpansion: false)
     }
     func getExpandedButton() -> UIView? {
         return expandedButton
