@@ -2,8 +2,8 @@
 //  MGSwipeTableCell.swift
 //  MgSwipeTableViewSwift
 //
-//  Created by Ankit Chaudhary on 31/07/20.
-//  Copyright © 2020 Ankit Chaudhary. All rights reserved.
+//  Created by Lokesh Kumar on 31/07/20.
+//  Copyright © 2020 Lokesh Kumar. All rights reserved.
 //
 
 import Foundation
@@ -26,40 +26,40 @@ protocol MGSwipeTableCellDelegate: NSObject {
 }
 extension MGSwipeTableCellDelegate {
     func swipeTableCell(_ cell: MGSwipeTableCell, canSwipe direction: MGSwipeDirection, from point: CGPoint) -> Bool {
-        print("canSwipe");
+        print("Default canSwipe delegate called");
         return true;
     }
 
     func swipeTableCell(_ cell: MGSwipeTableCell, canSwipe direction: MGSwipeDirection) -> Bool {
-        print("canSwipe");
+        print("Default canSwipe delegate called");
         return true;
     } //backwards compatibility
 
     func swipeTableCell(_ cell: MGSwipeTableCell, didChange state: MGSwipeState, gestureIsActive: Bool) {
-        print("didChange");
-        
+        print("Default didChange delegate called");
     }
 
     func swipeTableCell(_ cell: MGSwipeTableCell, tappedButtonAt index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
-        print("tappedButtonAt");
-        return true;
+        print("Default tappedButtonAt delegate called");
+        return false;
     }
 
     func swipeTableCell(_ cell: MGSwipeTableCell, swipeButtonsFor direction: MGSwipeDirection, swipeSettings: MGSwipeSettings, expansionSettings: MGSwipeExpansionSettings) -> [UIView]? {
-        print("swipeButtonsFor");
+        print("Default swipeButtonsFor delegate called");
         return [];
     }
 
     func swipeTableCell(_ cell: MGSwipeTableCell, shouldHideSwipeOnTap point: CGPoint) -> Bool {
-        print("shouldHideSwipeOnTap");
-        return true;
+        print("Default shouldHideSwipeOnTap delegate called");
+        return false;
     }
 
     func swipeTableCellWillBeginSwiping(_ cell: MGSwipeTableCell) {
-        print("swipeTableCellWillBeginSwiping");
+        print("Default swipeTableCellWillBeginSwiping delegate called");
     }
 
     func swipeTableCellWillEndSwiping(_ cell: MGSwipeTableCell) {
+        print("Default swipeTableCellWillEndSwiping delegate called");
     }
 }
 class MGSwipeTableCell: UITableViewCell {
@@ -96,7 +96,7 @@ class MGSwipeTableCell: UITableViewCell {
     
     var tapRecognizer: UITapGestureRecognizer? = nil
     var panRecognizer : UIPanGestureRecognizer? = nil
-    var panStartPoint: CGPoint
+    var panStartPoint: CGPoint = CGPoint.zero
     var panStartOffset: CGFloat = 0.0
     var targetOffset: CGFloat = 0.0
 
@@ -110,16 +110,16 @@ class MGSwipeTableCell: UITableViewCell {
     weak var activeExpansion: MGSwipeButtonsView?
     
     var tableInputOverlay: MGSwipeTableInputOverlay? = nil
-    var overlayEnabled: Bool
-    var previusSelectionStyle: UITableViewCell.SelectionStyle
+    var overlayEnabled: Bool = false
+    var previusSelectionStyle: UITableViewCell.SelectionStyle = .none
     var previusHiddenViews: Set<UIView> = []
-    var previusAccessoryType: UITableViewCell.AccessoryType
-    var triggerStateChanges: Bool
+    var previusAccessoryType: UITableViewCell.AccessoryType = .none
+    var triggerStateChanges: Bool = true
 
     var animationData: MGSwipeAnimationData? = nil
     var animationCompletion: ((_ finished: Bool) -> Void)? = nil
     var displayLink: CADisplayLink? = nil
-    var firstSwipeState: MGSwipeState
+    var firstSwipeState: MGSwipeState = .expandingLeftToRight
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -714,12 +714,15 @@ class MGSwipeTableCell: UITableViewCell {
     }
 
     @objc func tapHandler(_ recognizer: UITapGestureRecognizer?) {
-        var hide = true
-        if delegate && delegate.responds(to: #selector(swipeTableCell(_:shouldHideSwipeOnTap:))) {
-            hide = delegate.swipeTableCell(self, shouldHideSwipeOnTap: recognizer?.location(in: self) ?? 0.0)
-        }
-        if hide {
-            hideSwipe(animated: true)
+//        var hide = true
+//        if delegate && delegate.responds(to: #selector(swipeTableCell(_:shouldHideSwipeOnTap:))) {
+//            hide = delegate.swipeTableCell(self, shouldHideSwipeOnTap: recognizer?.location(in: self) ?? 0.0)
+//        }
+        if delegate != nil {
+        let hide = delegate!.swipeTableCell(self, shouldHideSwipeOnTap: recognizer?.location(in: self) ?? CGPoint.zero)
+            if hide {
+                hideSwipe(animated: true)
+            }
         }
     }
     func filterSwipe(_ offset: CGFloat) -> CGFloat {
@@ -800,7 +803,7 @@ class MGSwipeTableCell: UITableViewCell {
                 if velocity > inertiaThreshold {
                     targetOffset = swipeOffset < 0 ? 0 : ((leftView != nil) && leftSwipeSettings.keepButtonsSwiped ? leftView?.bounds.size.width ?? 0.0 : targetOffset)
                 } else if velocity < -inertiaThreshold {
-                    targetOffset = swipeOffset > 0 ? 0 : (((rightView != nil) && rightSwipeSettings.keepButtonsSwiped ? -(rightView?.bounds.size.width ?? 0.0) : targetOffset) ?? <#default value#>)
+                    targetOffset = swipeOffset > 0 ? 0 : ((rightView != nil) && rightSwipeSettings.keepButtonsSwiped ? -(rightView?.bounds.size.width ?? 0.0) : targetOffset)
                 }
                 targetOffset = filterSwipe(targetOffset)
                 let settings = swipeOffset > 0 ? leftSwipeSettings : rightSwipeSettings
@@ -826,7 +829,7 @@ class MGSwipeTableCell: UITableViewCell {
             }
 
             let translation = panRecognizer?.translation(in: self) ?? CGPoint.zero
-            if abs(Float(translation.y ?? 0.0)) > abs(Float(translation.x ?? 0.0)) {
+            if abs(Float(translation.y )) > abs(Float(translation.x )) {
                 return false // user is scrolling vertically
             }
             if (swipeView != nil) {

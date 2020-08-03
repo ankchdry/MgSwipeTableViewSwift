@@ -16,7 +16,6 @@ class MGSwipeButton: UIButton {
     
     /// A width for the expanded buttons. Defaults to 0, which means sizeToFit will be called.
     var buttonWidth: CGFloat = 0.0
-    //  Converted to Swift 5.1 by Swiftify v5.1.31847 - https://swiftify.com/
     class func button(withTitle title: String?, backgroundColor color: UIColor?) -> Self {
         return self.button(withTitle: title, icon: nil, backgroundColor: color)
     }
