@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3027890724D427060049B4E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027890624D427060049B4E9 /* AppDelegate.swift */; };
-		3027890924D427060049B4E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027890824D427060049B4E9 /* SceneDelegate.swift */; };
 		3027890B24D427060049B4E9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027890A24D427060049B4E9 /* ContentView.swift */; };
 		3027890D24D427080049B4E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3027890C24D427080049B4E9 /* Assets.xcassets */; };
 		3027891024D427080049B4E9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3027890F24D427080049B4E9 /* Preview Assets.xcassets */; };
@@ -24,6 +23,8 @@
 		3027894424D428580049B4E9 /* MGSwipeAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027894324D428580049B4E9 /* MGSwipeAnimation.swift */; };
 		3027894624D428670049B4E9 /* MGSwipeTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027894524D428670049B4E9 /* MGSwipeTableCell.swift */; };
 		3027894A24D439120049B4E9 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3027894924D439120049B4E9 /* Enums.swift */; };
+		A58E54C624D95011001B2701 /* MailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58E54C524D95011001B2701 /* MailViewController.swift */; };
+		A58E54C824D9507A001B2701 /* MailTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58E54C724D9507A001B2701 /* MailTableCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +47,6 @@
 /* Begin PBXFileReference section */
 		3027890324D427060049B4E9 /* MgSwipeTableViewSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MgSwipeTableViewSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3027890624D427060049B4E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3027890824D427060049B4E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3027890A24D427060049B4E9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3027890C24D427080049B4E9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3027890F24D427080049B4E9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -67,6 +67,8 @@
 		3027894324D428580049B4E9 /* MGSwipeAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGSwipeAnimation.swift; sourceTree = "<group>"; };
 		3027894524D428670049B4E9 /* MGSwipeTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MGSwipeTableCell.swift; sourceTree = "<group>"; };
 		3027894924D439120049B4E9 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		A58E54C524D95011001B2701 /* MailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailViewController.swift; sourceTree = "<group>"; };
+		A58E54C724D9507A001B2701 /* MailTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailTableCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,8 +120,9 @@
 			isa = PBXGroup;
 			children = (
 				3027893624D4278F0049B4E9 /* Sources */,
+				A58E54C724D9507A001B2701 /* MailTableCell.swift */,
+				A58E54C524D95011001B2701 /* MailViewController.swift */,
 				3027890624D427060049B4E9 /* AppDelegate.swift */,
-				3027890824D427060049B4E9 /* SceneDelegate.swift */,
 				3027890A24D427060049B4E9 /* ContentView.swift */,
 				3027890C24D427080049B4E9 /* Assets.xcassets */,
 				3027891124D427080049B4E9 /* LaunchScreen.storyboard */,
@@ -309,10 +312,11 @@
 				3027894224D428460049B4E9 /* MGSwipeAnimationData.swift in Sources */,
 				3027894024D428210049B4E9 /* MGSwipeExpansionSettings.swift in Sources */,
 				3027894624D428670049B4E9 /* MGSwipeTableCell.swift in Sources */,
-				3027890924D427060049B4E9 /* SceneDelegate.swift in Sources */,
 				3027893824D427CA0049B4E9 /* MGSwipeButton.swift in Sources */,
+				A58E54C624D95011001B2701 /* MailViewController.swift in Sources */,
 				3027893A24D427DD0049B4E9 /* MGSwipeTableInputOverlay.swift in Sources */,
 				3027894A24D439120049B4E9 /* Enums.swift in Sources */,
+				A58E54C824D9507A001B2701 /* MailTableCell.swift in Sources */,
 				3027890B24D427060049B4E9 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

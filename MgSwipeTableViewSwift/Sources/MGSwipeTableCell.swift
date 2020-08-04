@@ -51,7 +51,7 @@ extension MGSwipeTableCellDelegate {
 
     func swipeTableCell(_ cell: MGSwipeTableCell, shouldHideSwipeOnTap point: CGPoint) -> Bool {
         print("Default shouldHideSwipeOnTap delegate called");
-        return false;
+        return true;
     }
 
     func swipeTableCellWillBeginSwiping(_ cell: MGSwipeTableCell) {
@@ -254,7 +254,7 @@ class MGSwipeTableCell: UITableViewCell {
             leftButtons = delegate!.swipeTableCell(self, swipeButtonsFor: MGSwipeDirection.leftToRight, swipeSettings: leftSwipeSettings, expansionSettings: leftExpansion) ?? []
         }
         if rightButtons.count == 0 && delegate != nil {
-            rightButtons = delegate!.swipeTableCell(self, swipeButtonsFor: MGSwipeDirection.leftToRight, swipeSettings: rightSwipeSettings, expansionSettings: rightExpansion) ?? []
+            rightButtons = delegate!.swipeTableCell(self, swipeButtonsFor: MGSwipeDirection.rightToLeft, swipeSettings: rightSwipeSettings, expansionSettings: rightExpansion) ?? []
         }
     }
     func createSwipeViewIfNeeded() {
@@ -649,7 +649,9 @@ class MGSwipeTableCell: UITableViewCell {
         if completed {
             triggerStateChanges = true
         }
-        swipeOffset = animationData?.animation?.value(CGFloat(elapsed), duration: CGFloat(animationData?.duration ?? 0), from: animationData?.from ?? 0.0, to: animationData?.to ?? 0.0) ?? 0.0
+        let calculatedOffset = animationData?.animation?.value(CGFloat(elapsed), duration: CGFloat(animationData?.duration ?? 0), from: animationData?.from ?? 0.0, to: animationData?.to ?? 0.0) ?? 0.0
+        self.setSwipeOffset(calculatedOffset)
+        //swipeOffset = animationData?.animation?.value(CGFloat(elapsed), duration: CGFloat(animationData?.duration ?? 0), from: animationData?.from ?? 0.0, to: animationData?.to ?? 0.0) ?? 0.0
 
         //call animation completion and invalidate timer
         if completed {
@@ -771,7 +773,8 @@ class MGSwipeTableCell: UITableViewCell {
             if firstSwipeState == MGSwipeState.none {
                 firstSwipeState = offset > 0 ? MGSwipeState.swipingLeftToRight : MGSwipeState.swipingRightToLeft
             }
-            swipeOffset = filterSwipe(offset)
+            self.setSwipeOffset(filterSwipe(offset))
+            //swipeOffset = filterSwipe(offset)
         }
         else {
             weak var expansion = activeExpansion
@@ -842,11 +845,11 @@ class MGSwipeTableCell: UITableViewCell {
             if swipeOffset != 0.0 {
                 return true //already swiped, don't need to check buttons or canSwipe delegate
             }
-            if delegate != nil {
-                let point = panRecognizer?.location(in: self) ?? CGPoint.zero
-                allowSwipeLeftToRight = delegate!.swipeTableCell(self, canSwipe: MGSwipeDirection.leftToRight, from: point)
-                allowSwipeRightToLeft = delegate!.swipeTableCell(self, canSwipe: MGSwipeDirection.rightToLeft, from: point)
-            }
+//            if delegate != nil {
+//                let point = panRecognizer?.location(in: self) ?? CGPoint.zero
+//                allowSwipeLeftToRight = delegate!.swipeTableCell(self, canSwipe: MGSwipeDirection.leftToRight, from: point)
+//                allowSwipeRightToLeft = delegate!.swipeTableCell(self, canSwipe: MGSwipeDirection.rightToLeft, from: point)
+//            }
 //            else if delegate && delegate.responds(to: #selector(swipeTableCell(_:canSwipe:))) {
 //            //#pragma clang diagnostic push
 //            //#pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -854,11 +857,11 @@ class MGSwipeTableCell: UITableViewCell {
 //                allowSwipeRightToLeft = delegate.swipeTableCell(self, canSwipe: MGSwipeDirectionRightToLeft)
 //            //#pragma clang diagnostic pop
 //            }
-            else {
+//            else {
                 fetchButtonsIfNeeded()
                 allowSwipeLeftToRight = leftButtons.count > 0
                 allowSwipeRightToLeft = rightButtons.count > 0
-            }
+//            }
             return (allowSwipeLeftToRight && translation.x > 0.0) || (allowSwipeRightToLeft && translation.x < 0.0)
         }
         else if (gestureRecognizer == tapRecognizer) {

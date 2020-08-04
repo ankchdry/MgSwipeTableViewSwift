@@ -31,7 +31,10 @@ class MGSwipeButton: UIButton {
     class func button(withTitle title: String?, backgroundColor color: UIColor?, callback: @escaping MGSwipeButtonCallback) -> Self {
         return self.button(withTitle: title, icon: nil, backgroundColor: color, callback: callback)
     }
-
+    
+//    convenience init(title: String?, color: UIColor?, padding: Int, callback: @escaping MGSwipeButtonCallback) {
+//        MGSwipeButton.button(withTitle: title, icon: nil, backgroundColor: color, insets: UIEdgeInsets(top: 0, left: CGFloat(padding), bottom: 0, right: CGFloat(padding)), callback: callback)
+//    }
     class func button(withTitle title: String?, backgroundColor color: UIColor?, padding: Int, callback: @escaping MGSwipeButtonCallback) -> Self {
         return self.button(withTitle: title, icon: nil, backgroundColor: color, insets: UIEdgeInsets(top: 0, left: CGFloat(padding), bottom: 0, right: CGFloat(padding)), callback: callback)
     }
@@ -59,7 +62,7 @@ class MGSwipeButton: UIButton {
         return self.button(withTitle: title, icon: icon, backgroundColor: color, insets: UIEdgeInsets(top: 0, left: CGFloat(padding), bottom: 0, right: CGFloat(padding)), callback: callback)
     }
 
-    class func button(withTitle title: String?, icon: UIImage?, backgroundColor color: UIColor?, insets: UIEdgeInsets, callback: MGSwipeButtonCallback?) -> Self {
+     class func button(withTitle title: String?, icon: UIImage?, backgroundColor color: UIColor?, insets: UIEdgeInsets, callback: MGSwipeButtonCallback?) -> Self {
         let button = self.init(type: .custom)
         button.backgroundColor = color
         button.titleLabel?.lineBreakMode = .byWordWrapping
@@ -68,10 +71,10 @@ class MGSwipeButton: UIButton {
         button.setTitleColor(UIColor.white, for: .normal)
         button.setImage(icon, for: .normal)
         button.callback = callback
-        //button.edgeInsets = insets
+        button.setEdgeInsets(insets)
         return button
     }
-    func callMGSwipeConvenienceCallback(_ sender: MGSwipeTableCell?) -> Bool {
+    @objc func callMGSwipeConvenienceCallback(_ sender: MGSwipeTableCell?) -> Bool {
         if (callback != nil && sender != nil) {
             return (callback!)(sender!)
         }
