@@ -220,26 +220,53 @@ class MailViewController: UIViewController, UITableViewDataSource, UITableViewDe
             expansionSettings.threshold = 1.1;
             let padding = 15;
             let color1 = UIColor.init(red:1.0, green:59/255.0, blue:50/255.0, alpha:1.0);
+            let color2 = UIColor.init(red:1.0, green:149/255.0, blue:0.05, alpha:1.0);
+            let color3 = UIColor.init(red:200/255.0, green:200/255.0, blue:205/255.0, alpha:1.0);
             
             let trash = MGSwipeButton(title: "Trash", backgroundColor: color1, padding: padding, callback: { (cell) -> Bool in
                 self.deleteMail(self.tableView.indexPath(for: cell)!);
                 return false; //don't autohide to improve delete animation
             });
+    
+            let flag = MGSwipeButton(title: "Flag", backgroundColor: color2, padding: padding, callback: { (cell) -> Bool in
+                let mail = self.mailForIndexPath(self.tableView.indexPath(for: cell)!);
+                mail.flag = !mail.flag;
+                self.updateCellIndicator(mail, cell: cell as! MailTableCell);
+                cell.refreshContentView(); //needed to refresh cell contents while swipping
+                return true; //autohide
+            });
             
-            let more = MGSwipeButton(title: "More", backgroundColor: UIColor.green, padding: padding, callback: { (cell) -> Bool in
-                print("More Button Clicked")
+            let more = MGSwipeButton(title: "More", backgroundColor: color3, padding: padding, callback: { (cell) -> Bool in
+                let path = self.tableView.indexPath(for: cell)!;
+                let mail = self.mailForIndexPath(path);
+                
+                self.showMailActions(mail, callback: { (cancelled, deleted, index) in
+                    if cancelled {
+                        return;
+                    }
+                    else if deleted {
+                        self.deleteMail(path);
+                    }
+                    else if index == 1 {
+                        mail.read = !mail.read;
+                        self.updateCellIndicator(mail, cell: cell as! MailTableCell);
+                        cell.refreshContentView();
+                        (cell.leftButtons[0] as! UIButton).setTitle(self.readButtonText(mail.read), for: UIControl.State());
+                        cell.hideSwipe(animated: true);
+                    }
+                    else if index == 2 {
+                        mail.flag = !mail.flag;
+                        self.updateCellIndicator(mail, cell: cell as! MailTableCell);
+                        cell.refreshContentView(); //needed to refresh cell contents while swipping
+                        cell.hideSwipe(animated: true);
+                    }
+                    
+                });
+                
                 return false; // Don't autohide
             });
             
-//            let trash = MGSwipeButton.button(withTitle: "Trash", backgroundColor: color1, padding: padding) { (cell) -> Bool in
-//                self.deleteMail(self.tableView.indexPath(for: cell)!);
-//                return false;
-//            }
-//            let more = MGSwipeButton.button(withTitle: "More", backgroundColor: UIColor.green, padding: padding) { (cell) -> Bool in
-//                print("More button Clicked")
-//                return true;
-//            }
-            return [trash,more]
+            return [trash, flag, more];
         }
         
     }
