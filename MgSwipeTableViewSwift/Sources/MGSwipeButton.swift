@@ -11,68 +11,79 @@ import UIKit
 
 class MGSwipeButton: UIButton {
     
+    private let defaultPadding : CGFloat = 10.0
     typealias MGSwipeButtonCallback = (MGSwipeTableCell) -> Bool
     var callback: MGSwipeButtonCallback?
     
     /// A width for the expanded buttons. Defaults to 0, which means sizeToFit will be called.
     var buttonWidth: CGFloat = 0.0
-    class func button(withTitle title: String?, backgroundColor color: UIColor?) -> Self {
-        return self.button(withTitle: title, icon: nil, backgroundColor: color)
+    convenience init(title: String?, backgroundColor color: UIColor?){
+        self.init(type: .custom)
+        setupButton(withTitle: title, icon: nil, backgroundColor: color, insets: UIEdgeInsets.init(top: 0, left: defaultPadding, bottom: 0, right: defaultPadding), callback: nil)
     }
 
-    class func button(withTitle title: String?, backgroundColor color: UIColor?, padding: Int) -> Self {
-        return self.button(withTitle: title, icon: nil, backgroundColor: color, insets: UIEdgeInsets(top: 0, left: CGFloat(padding), bottom: 0, right: CGFloat(padding)))
+    convenience init(title: String?, backgroundColor color: UIColor?, padding: Int) {
+        self.init(type: .custom)
+        setupButton(withTitle: title, icon: nil, backgroundColor: color, insets: UIEdgeInsets.init(top: 0, left: CGFloat(padding), bottom: 0, right: CGFloat(padding)), callback: nil)
     }
 
-    class func button(withTitle title: String?, backgroundColor color: UIColor?, insets: UIEdgeInsets) -> Self {
-        return self.button(withTitle: title, icon: nil, backgroundColor: color, insets: insets)
+    convenience init(title: String?, backgroundColor color: UIColor?, insets: UIEdgeInsets) {
+        self.init(type: .custom)
+        setupButton(withTitle: title, icon: nil, backgroundColor: color, insets: insets, callback: nil)
     }
 
-    class func button(withTitle title: String?, backgroundColor color: UIColor?, callback: @escaping MGSwipeButtonCallback) -> Self {
-        return self.button(withTitle: title, icon: nil, backgroundColor: color, callback: callback)
+    convenience init(title: String?, backgroundColor color: UIColor?, callback: @escaping MGSwipeButtonCallback) {
+        self.init(type: .custom)
+        setupButton(withTitle: title, icon: nil, backgroundColor: color, insets: UIEdgeInsets.init(top: 0, left: defaultPadding, bottom: 0, right: defaultPadding), callback: callback)
     }
     
-//    convenience init(title: String?, color: UIColor?, padding: Int, callback: @escaping MGSwipeButtonCallback) {
-//        MGSwipeButton.button(withTitle: title, icon: nil, backgroundColor: color, insets: UIEdgeInsets(top: 0, left: CGFloat(padding), bottom: 0, right: CGFloat(padding)), callback: callback)
-//    }
-    class func button(withTitle title: String?, backgroundColor color: UIColor?, padding: Int, callback: @escaping MGSwipeButtonCallback) -> Self {
-        return self.button(withTitle: title, icon: nil, backgroundColor: color, insets: UIEdgeInsets(top: 0, left: CGFloat(padding), bottom: 0, right: CGFloat(padding)), callback: callback)
+    convenience init(title: String?, backgroundColor color: UIColor?, padding: Int, callback: @escaping MGSwipeButtonCallback) {
+        self.init(type: .custom)
+        setupButton(withTitle: title, icon: nil, backgroundColor: color, insets: UIEdgeInsets.init(top: 0, left: CGFloat(padding), bottom: 0, right: CGFloat(padding)), callback: callback)
     }
 
-    class func button(withTitle title: String?, backgroundColor color: UIColor?, insets: UIEdgeInsets, callback: @escaping MGSwipeButtonCallback) -> Self {
-        return self.button(withTitle: title, icon: nil, backgroundColor: color, insets: insets, callback: callback)
+    convenience init(title: String?, backgroundColor color: UIColor?, insets: UIEdgeInsets, callback: @escaping MGSwipeButtonCallback) {
+        self.init(type: .custom)
+        setupButton(withTitle: title, icon: nil, backgroundColor: color, insets: insets, callback: callback)
     }
 
-    class func button(withTitle title: String?, icon: UIImage?, backgroundColor color: UIColor?) -> Self {
-        return self.button(withTitle: title, icon: icon, backgroundColor: color, callback: nil)
+    convenience init(title: String?, icon: UIImage?, backgroundColor color: UIColor?) {
+        self.init(type: .custom)
+        setupButton(withTitle: title, icon: icon, backgroundColor: color, insets: UIEdgeInsets.init(top: 0, left: defaultPadding, bottom: 0, right: defaultPadding), callback: nil)
     }
 
-    class func button(withTitle title: String?, icon: UIImage?, backgroundColor color: UIColor?, padding: Int) -> Self {
-        return self.button(withTitle: title, icon: icon, backgroundColor: color, insets: UIEdgeInsets(top: 0, left: CGFloat(padding), bottom: 0, right: CGFloat(padding)), callback: nil)
+    convenience init(title: String?, icon: UIImage?, backgroundColor color: UIColor?, padding: Int) {
+        self.init(type: .custom)
+        setupButton(withTitle: title, icon: icon, backgroundColor: color, insets: UIEdgeInsets.init(top: 0, left: CGFloat(padding), bottom: 0, right: CGFloat(padding)), callback: nil)
     }
-    class func button(withTitle title: String?, icon: UIImage?, backgroundColor color: UIColor?, insets: UIEdgeInsets) -> Self {
-        return self.button(withTitle: title, icon: icon, backgroundColor: color, insets: insets, callback: nil)
-    }
-
-    class func button(withTitle title: String?, icon: UIImage?, backgroundColor color: UIColor?, callback: MGSwipeButtonCallback?) -> Self {
-        return self.button(withTitle: title, icon: icon, backgroundColor: color, padding: 10, callback: callback)
+    convenience init(title: String?, icon: UIImage?, backgroundColor color: UIColor?, insets: UIEdgeInsets) {
+        self.init(type: .custom)
+        setupButton(withTitle: title, icon: icon, backgroundColor: color, insets: UIEdgeInsets.init(top: 0, left: defaultPadding, bottom: 0, right: defaultPadding), callback: nil)
     }
 
-    class func button(withTitle title: String?, icon: UIImage?, backgroundColor color: UIColor?, padding: Int, callback: MGSwipeButtonCallback?) -> Self {
-        return self.button(withTitle: title, icon: icon, backgroundColor: color, insets: UIEdgeInsets(top: 0, left: CGFloat(padding), bottom: 0, right: CGFloat(padding)), callback: callback)
+    convenience init(title: String?, icon: UIImage?, backgroundColor color: UIColor?, callback: MGSwipeButtonCallback?) {
+        self.init(type: .custom)
+        setupButton(withTitle: title, icon: icon, backgroundColor: color, insets: UIEdgeInsets.init(top: 0, left: defaultPadding, bottom: 0, right: defaultPadding), callback: callback)
     }
 
-     class func button(withTitle title: String?, icon: UIImage?, backgroundColor color: UIColor?, insets: UIEdgeInsets, callback: MGSwipeButtonCallback?) -> Self {
-        let button = self.init(type: .custom)
-        button.backgroundColor = color
-        button.titleLabel?.lineBreakMode = .byWordWrapping
-        button.titleLabel?.textAlignment = .center
-        button.setTitle(title, for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.setImage(icon, for: .normal)
-        button.callback = callback
-        button.setEdgeInsets(insets)
-        return button
+    convenience init(title: String?, icon: UIImage?, backgroundColor color: UIColor?, padding: Int, callback: MGSwipeButtonCallback?) {
+        self.init(type: .custom)
+        setupButton(withTitle: title, icon: icon, backgroundColor: color, insets: UIEdgeInsets.init(top: 0, left: CGFloat(padding), bottom: 0, right: CGFloat(padding)), callback: nil)
+    }
+
+    convenience init(withTitle title: String?, icon: UIImage?, backgroundColor color: UIColor?, insets: UIEdgeInsets, callback: MGSwipeButtonCallback?){
+        self.init(type: .custom)
+        setupButton(withTitle: title, icon: icon, backgroundColor: color, insets: insets, callback: callback)
+    }
+    private func setupButton(withTitle title: String?, icon: UIImage?, backgroundColor color: UIColor?, insets: UIEdgeInsets, callback: MGSwipeButtonCallback?){
+        self.backgroundColor = color
+        self.titleLabel?.lineBreakMode = .byWordWrapping
+        self.titleLabel?.textAlignment = .center
+        self.setTitle(title, for: .normal)
+        self.setTitleColor(UIColor.white, for: .normal)
+        self.setImage(icon, for: .normal)
+        self.callback = callback
+        self.setEdgeInsets(insets)
     }
     @objc func callMGSwipeConvenienceCallback(_ sender: MGSwipeTableCell?) -> Bool {
         if (callback != nil && sender != nil) {

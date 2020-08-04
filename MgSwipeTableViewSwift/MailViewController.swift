@@ -205,7 +205,7 @@ class MailViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let color = UIColor.init(red:0.0, green:122/255.0, blue:1.0, alpha:1.0);
             
             return [
-                MGSwipeButton.button(withTitle: readButtonText(mail.read), backgroundColor: color, callback: { (cell) -> Bool in
+                MGSwipeButton(title: readButtonText(mail.read), backgroundColor: color, callback: { (cell) -> Bool in
                     mail.read = !mail.read;
                     self.updateCellIndicator(mail, cell: cell as! MailTableCell);
                     cell.refreshContentView();
@@ -221,14 +221,24 @@ class MailViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let padding = 15;
             let color1 = UIColor.init(red:1.0, green:59/255.0, blue:50/255.0, alpha:1.0);
             
-            let trash = MGSwipeButton.button(withTitle: "Trash", backgroundColor: color1, padding: padding) { (cell) -> Bool in
+            let trash = MGSwipeButton(title: "Trash", backgroundColor: color1, padding: padding, callback: { (cell) -> Bool in
                 self.deleteMail(self.tableView.indexPath(for: cell)!);
-                return false;
-            }
-            let more = MGSwipeButton.button(withTitle: "More", backgroundColor: UIColor.green, padding: padding) { (cell) -> Bool in
-                print("More button Clicked")
-                return true;
-            }
+                return false; //don't autohide to improve delete animation
+            });
+            
+            let more = MGSwipeButton(title: "More", backgroundColor: UIColor.green, padding: padding, callback: { (cell) -> Bool in
+                print("More Button Clicked")
+                return false; // Don't autohide
+            });
+            
+//            let trash = MGSwipeButton.button(withTitle: "Trash", backgroundColor: color1, padding: padding) { (cell) -> Bool in
+//                self.deleteMail(self.tableView.indexPath(for: cell)!);
+//                return false;
+//            }
+//            let more = MGSwipeButton.button(withTitle: "More", backgroundColor: UIColor.green, padding: padding) { (cell) -> Bool in
+//                print("More button Clicked")
+//                return true;
+//            }
             return [trash,more]
         }
         
