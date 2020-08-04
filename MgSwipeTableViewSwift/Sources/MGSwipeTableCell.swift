@@ -33,7 +33,7 @@ extension MGSwipeTableCellDelegate {
     func swipeTableCell(_ cell: MGSwipeTableCell, canSwipe direction: MGSwipeDirection) -> Bool {
         print("Default canSwipe delegate called");
         return true;
-    } //backwards compatibility
+    }
 
     func swipeTableCell(_ cell: MGSwipeTableCell, didChange state: MGSwipeState, gestureIsActive: Bool) {
         print("Default didChange delegate called");
@@ -206,7 +206,7 @@ class MGSwipeTableCell: UITableViewCell {
         }
     }
     func getSwipeContentView() -> UIView {
-        if !(swipeContentView != nil) {
+        if swipeContentView == nil {
             swipeContentView = UIView(frame: contentView.bounds)
             swipeContentView?.backgroundColor = UIColor.clear
             swipeContentView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -259,7 +259,7 @@ class MGSwipeTableCell: UITableViewCell {
     }
     func createSwipeViewIfNeeded() {
         let safeInsets = getSafeInsets()
-        if !(swipeOverlay != nil) {
+        if swipeOverlay == nil {
             swipeOverlay = UIView(frame: CGRect(x: 0, y: 0, width: bounds.size.width, height: contentView.bounds.size.height))
             fixRegionAndAccesoryViews()
             swipeOverlay?.isHidden = true
