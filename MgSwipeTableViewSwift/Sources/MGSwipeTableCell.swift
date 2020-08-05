@@ -417,8 +417,7 @@ class MGSwipeTableCell: UITableViewCell {
             triggerStateChanges = true
             self.update(MGSwipeState.none)
         }
-//        let cleanButtons = delegate && delegate.responds(to: #selector(swipeTableCell(_:swipeButtonsForDirection:swipeSettings:expansionSettings:)))
-//        initViews(cleanButtons)
+        self.initViews(true)
     }
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
@@ -541,7 +540,7 @@ class MGSwipeTableCell: UITableViewCell {
         }
         let offset = CGFloat(abs(swipeOffset))
 
-        if !(activeButtons != nil) || offset == 0 {
+        if (activeButtons == nil || offset == 0){
             if (leftView != nil) {
                 leftView!.endExpansion(animated: false)
             }
@@ -710,17 +709,13 @@ class MGSwipeTableCell: UITableViewCell {
             }
         }
     }
-
     @objc func tapHandler(_ recognizer: UITapGestureRecognizer?) {
-//        var hide = true
-//        if delegate && delegate.responds(to: #selector(swipeTableCell(_:shouldHideSwipeOnTap:))) {
-//            hide = delegate.swipeTableCell(self, shouldHideSwipeOnTap: recognizer?.location(in: self) ?? 0.0)
-//        }
+        var hide = true
         if delegate != nil {
-        let hide = delegate!.swipeTableCell(self, shouldHideSwipeOnTap: recognizer?.location(in: self) ?? CGPoint.zero)
-            if hide {
-                hideSwipe(animated: true)
-            }
+        hide = delegate!.swipeTableCell(self, shouldHideSwipeOnTap: recognizer?.location(in: self) ?? CGPoint.zero)
+        }
+        if hide {
+            hideSwipe(animated: true)
         }
     }
     func filterSwipe(_ offset: CGFloat) -> CGFloat {

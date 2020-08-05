@@ -261,22 +261,6 @@ class MGSwipeButtonsView: UIView {
         }
         return autoHide
     }
-//    func handleMgButtonClick(_ sender: MGSwipeButton?, fromExpansion: Bool) -> Bool {
-//        var autoHide = false
-//        guard let senderUnwrapped = sender else {
-//            return autoHide
-//        }
-//        if (senderUnwrapped.responds(to: #selector(senderUnwrapped.callMGSwipeConvenienceCallback(_:)))) {
-//            autoHide = (senderUnwrapped.perform(#selector(senderUnwrapped.callMGSwipeConvenienceCallback(_:)), with: cell!) != nil)
-//        }
-//        if fromExpansion && autoHide {
-//            expandedButton = nil
-//            cell?.setSwipeOffset(0)
-//        } else if autoHide {
-//            cell?.hideSwipe(animated: true)
-//        }
-//        return autoHide
-//    }
     @objc func mgButtonClicked(_ sender: Any?) {
        _ = handleClick(sender as? MGSwipeButton, fromExpansion: false)
     }

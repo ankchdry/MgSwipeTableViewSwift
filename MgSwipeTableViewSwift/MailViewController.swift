@@ -237,33 +237,7 @@ class MailViewController: UIViewController, UITableViewDataSource, UITableViewDe
             });
             
             let more = MGSwipeButton(title: "More", backgroundColor: color3, padding: padding, callback: { (cell) -> Bool in
-                let path = self.tableView.indexPath(for: cell)!;
-                let mail = self.mailForIndexPath(path);
-                
-                self.showMailActions(mail, callback: { (cancelled, deleted, index) in
-                    if cancelled {
-                        return;
-                    }
-                    else if deleted {
-                        self.deleteMail(path);
-                    }
-                    else if index == 1 {
-                        mail.read = !mail.read;
-                        self.updateCellIndicator(mail, cell: cell as! MailTableCell);
-                        cell.refreshContentView();
-                        (cell.leftButtons[0] as! UIButton).setTitle(self.readButtonText(mail.read), for: UIControl.State());
-                        cell.hideSwipe(animated: true);
-                    }
-                    else if index == 2 {
-                        mail.flag = !mail.flag;
-                        self.updateCellIndicator(mail, cell: cell as! MailTableCell);
-                        cell.refreshContentView(); //needed to refresh cell contents while swipping
-                        cell.hideSwipe(animated: true);
-                    }
-                    
-                });
-                
-                return false; // Don't autohide
+                return true; // Don't autohide
             });
             
             return [trash, flag, more];
