@@ -36,7 +36,7 @@ class MGSwipeButtonsView: UIView {
             maxSize.width = max(maxSize.width, button.bounds.size.width)
             maxSize.height = max(maxSize.height, button.bounds.size.height)
         }
-        if settings?.allowsButtonsWithDifferentWidth == nil {
+        if !(settings?.allowsButtonsWithDifferentWidth ?? false) {
             let width1 = maxSize.width * CGFloat(buttonsArray.count)
             let width2 = (settings?.buttonsDistance ?? 0.0) * CGFloat(buttonsArray.count-1)
             containerWidth = width1 + width2
