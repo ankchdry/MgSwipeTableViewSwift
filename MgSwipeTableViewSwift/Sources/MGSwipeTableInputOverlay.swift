@@ -40,6 +40,6 @@ class MGSwipeTableInputOverlay: UIView {
         if hide {
             currentCell?.hideSwipe(animated: true)
         }
-        return currentCell?.touchOnDismissSwipe ?? false ? nil : self
+        return (currentCell?.touchOnDismissSwipe ?? false) ? nil : self
     }
 }

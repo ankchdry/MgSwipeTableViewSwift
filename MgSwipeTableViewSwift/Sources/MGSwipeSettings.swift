@@ -16,8 +16,8 @@ class MGSwipeSettings: NSObject {
     var offset: CGFloat?
     var expandLastButtonBySafeAreaInsets: Bool!
     var keepButtonsSwiped: Bool!
-    var onlySwipeButtons = false
-    var enableSwipeBounces: Bool!
+    var onlySwipeButtons : Bool = false
+    var enableSwipeBounces: Bool = true
     var allowsButtonsWithDifferentWidth: Bool!
     var swipeBounceRate: CGFloat!
     var buttonsDistance: CGFloat!

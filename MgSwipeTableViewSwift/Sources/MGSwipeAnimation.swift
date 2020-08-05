@@ -81,7 +81,7 @@ class MGSwipeAnimation {
 }
 
 @inline(__always) private func mgEaseOutCubic(_ t: CGFloat, _ b: CGFloat, _ c: CGFloat) -> CGFloat {
-    let t = t * -1
+    let t = t - 1
     return c * (t * t * t + 1) + b
 }
 

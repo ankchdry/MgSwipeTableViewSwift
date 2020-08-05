@@ -526,7 +526,7 @@ class MGSwipeTableCell: UITableViewCell {
         let activeButtons = sign < 0 ? rightView : leftView
         let activeSettings = sign < 0 ? rightSwipeSettings : leftSwipeSettings
 
-        if activeSettings?.enableSwipeBounces != nil {
+        if activeSettings?.enableSwipeBounces ?? true {
             swipeOffset = newOffset
 
             let maxUnbouncedOffset = sign * (activeButtons?.bounds.size.width ?? 0.0)
@@ -553,9 +553,9 @@ class MGSwipeTableCell: UITableViewCell {
             return
         } else {
             showSwipeOverlayIfNeeded()
-            let swipeThreshold = activeSettings?.threshold
-            let keepButtons = activeSettings?.keepButtonsSwiped
-            targetOffset = ((keepButtons ?? false)  && (offset > ((activeButtons?.bounds.size.width ?? 0.0) * (swipeThreshold ?? 0.0)))) ? (activeButtons?.bounds.size.width ?? 0.0) * sign : 0.0
+            let swipeThreshold = activeSettings?.threshold ?? 0.5
+            let keepButtons = activeSettings?.keepButtonsSwiped ?? true
+            targetOffset = (keepButtons  && (offset > ((activeButtons?.bounds.size.width ?? 0.0) * swipeThreshold))) ? ((activeButtons?.bounds.size.width ?? 0.0) * sign) : 0.0
         }
         let onlyButtons = activeSettings?.onlySwipeButtons
         let safeInsets = getSafeInsets()
@@ -640,7 +640,7 @@ class MGSwipeTableCell: UITableViewCell {
         }
     }
     @objc func animationTick(_ timer: CADisplayLink?) {
-        if animationData?.start == nil {
+        if animationData?.start == nil || animationData?.start == 0 {
             animationData?.start = timer?.timestamp ?? 0
         }
         let elapsed = (timer?.timestamp ?? 0) - (animationData?.start ?? 0)
@@ -649,6 +649,7 @@ class MGSwipeTableCell: UITableViewCell {
             triggerStateChanges = true
         }
         let calculatedOffset = animationData?.animation?.value(CGFloat(elapsed), duration: CGFloat(animationData?.duration ?? 0), from: animationData?.from ?? 0.0, to: animationData?.to ?? 0.0) ?? 0.0
+        print("Calculated Offset : \(calculatedOffset)")
         self.setSwipeOffset(calculatedOffset)
         //call animation completion and invalidate timer
         if completed {
