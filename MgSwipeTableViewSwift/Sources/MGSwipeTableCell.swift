@@ -383,8 +383,8 @@ class MGSwipeTableCell: UITableViewCell {
         let currentOffset = swipeOffset
         let prevValue = triggerStateChanges
         triggerStateChanges = false
-        swipeOffset = 0
-        swipeOffset = currentOffset
+        self.setSwipeOffset(0)
+        self.setSwipeOffset(currentOffset)
         triggerStateChanges = prevValue
     }
     func refreshButtons(_ usingDelegate: Bool) {
@@ -424,7 +424,7 @@ class MGSwipeTableCell: UITableViewCell {
         super.setEditing(editing, animated: animated)
         if editing {
             //disable swipe buttons when the user sets table editing mode
-            swipeOffset = 0
+            self.setSwipeOffset(0)
         }
     }
 
@@ -432,7 +432,7 @@ class MGSwipeTableCell: UITableViewCell {
         super.setEditing(editing, animated: true)
         if editing {
             //disable swipe buttons when the user sets table editing mode
-            swipeOffset = 0
+            self.setSwipeOffset(0)
         }
     }
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -651,8 +651,6 @@ class MGSwipeTableCell: UITableViewCell {
         }
         let calculatedOffset = animationData?.animation?.value(CGFloat(elapsed), duration: CGFloat(animationData?.duration ?? 0), from: animationData?.from ?? 0.0, to: animationData?.to ?? 0.0) ?? 0.0
         self.setSwipeOffset(calculatedOffset)
-        //swipeOffset = animationData?.animation?.value(CGFloat(elapsed), duration: CGFloat(animationData?.duration ?? 0), from: animationData?.from ?? 0.0, to: animationData?.to ?? 0.0) ?? 0.0
-
         //call animation completion and invalidate timer
         if completed {
             timer?.invalidate()
@@ -688,10 +686,8 @@ class MGSwipeTableCell: UITableViewCell {
             createSwipeViewIfNeeded()
         }
         if animation == nil {
-            swipeOffset = offset
-            //if completion {
-                completion(true)
-            //}
+            self.setSwipeOffset(offset)
+            completion(true)
             return
         }
 
@@ -774,7 +770,6 @@ class MGSwipeTableCell: UITableViewCell {
                 firstSwipeState = offset > 0 ? MGSwipeState.swipingLeftToRight : MGSwipeState.swipingRightToLeft
             }
             self.setSwipeOffset(filterSwipe(offset))
-            //swipeOffset = filterSwipe(offset)
         }
         else {
             weak var expansion = activeExpansion
