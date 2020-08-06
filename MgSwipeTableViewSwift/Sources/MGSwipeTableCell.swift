@@ -563,35 +563,32 @@ class MGSwipeTableCell: UITableViewCell {
         swipeView?.transform = CGAffineTransform(translationX: safeInset + (onlyButtons ?? false ? 0 : swipeOffset), y: 0)
 
         //animate existing buttons
-        let but = [leftView, rightView]
-        let settings = [leftSwipeSettings, rightSwipeSettings]
-        let expansions = [leftExpansion, rightExpansion]
-        
+        let but = [leftView , rightView]
+        let settings = [leftSwipeSettings ?? MGSwipeSettings(), rightSwipeSettings ?? MGSwipeSettings()]
+        let expansions = [leftExpansion ?? MGSwipeExpansionSettings(), rightExpansion ?? MGSwipeExpansionSettings()]
         for i in 0..<2 {
-            let view = but[i]
-            if view == nil {
-                continue
+            guard let view = but[i] else{
+                return
             }
-
             //buttons view position
-            let translation: CGFloat = min(offset, view?.bounds.size.width ?? 0.0) * sign + (settings[i]?.offset ?? 0.0) * sign
-            view?.transform = CGAffineTransform(translationX: translation, y: 0)
+            let translation: CGFloat = min(offset, view.bounds.size.width ) * sign + (settings[i].offset ?? 0.0) * sign
+            view.transform = CGAffineTransform(translationX: translation, y: 0)
 
             if view != activeButtons {
                 continue //only transition if active (perf. improvement)
             }
-            let expand = expansions[i]!.buttonIndex >= 0 && offset > (view?.bounds.size.width ?? 0.0) * expansions[i]!.threshold
+            let expand = expansions[i].buttonIndex >= 0 && offset > (view.bounds.size.width ) * expansions[i].threshold
             if expand {
-                view?.expand(toOffset: offset, settings: expansions[i]!)
-                targetOffset = expansions[i]!.fillOnTrigger ? bounds.size.width * sign : 0
+                view.expand(toOffset: offset, settings: expansions[i])
+                targetOffset = expansions[i].fillOnTrigger ? bounds.size.width * sign : 0
                 activeExpansion = view
                 self.update(i != 0 ? MGSwipeState.expandingRightToLeft : MGSwipeState.expandingLeftToRight)
             }
             else {
-                view?.endExpansion(animated: true)
+                view.endExpansion(animated: true)
                 activeExpansion = nil
-                let t = min(1.0, offset / (view?.bounds.size.width ?? 0.0))
-                view?.transition(settings[i]!.transition ?? .border , percent: t)
+                let t = min(1.0, offset / (view.bounds.size.width ))
+                view.transition(settings[i].transition ?? .border , percent: t)
                 self.update(i != 0 ? MGSwipeState.swipingRightToLeft : MGSwipeState.swipingLeftToRight)
             }
         }
@@ -649,7 +646,6 @@ class MGSwipeTableCell: UITableViewCell {
             triggerStateChanges = true
         }
         let calculatedOffset = animationData?.animation?.value(CGFloat(elapsed), duration: CGFloat(animationData?.duration ?? 0), from: animationData?.from ?? 0.0, to: animationData?.to ?? 0.0) ?? 0.0
-        print("Calculated Offset : \(calculatedOffset)")
         self.setSwipeOffset(calculatedOffset)
         //call animation completion and invalidate timer
         if completed {
